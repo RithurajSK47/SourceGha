@@ -14,5 +14,5 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Display files in repo
+    - name: Display repository contents
       run: ls -R
