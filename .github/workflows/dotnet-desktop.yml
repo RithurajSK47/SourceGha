@@ -36,7 +36,7 @@
 # For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
 # refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
-name: CI Demo
+name: .NET Build and Artifact Upload
 
 on:
   push:
@@ -52,7 +52,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Display repository contents
-      run: ls -R
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore ./GHASample3/GHASample3.csproj
+
+    - name: Build project
+      run: dotnet build ./GHASample3/GHASample3.csproj --configuration Release --no-restore
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: GHASample3-Build
+        path: ./GHASample3/bin/Release/
 
 
